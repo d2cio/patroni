@@ -151,6 +151,10 @@ RUN sed -i 's/env python/&3/' /patroni*.py \
     && if [ "$COMPRESS" = "true" ]; then chmod u+s /usr/bin/sudo; fi \
     && chown -R postgres:postgres $PGHOME /run /etc/haproxy
 
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends pgbackrest && \
+  rm -rf /var/lib/apt/lists/*
+
 USER postgres
 
 ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
